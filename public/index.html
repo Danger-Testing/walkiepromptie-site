@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WalkiePromptie — Talk to your code</title>
+  <meta name="description" content="A walkie-talkie AI desktop app for macOS. Push to talk, let AI build.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0a0a0a;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      opacity: 0.03;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      z-index: 100;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 60px 24px;
+      position: relative;
+    }
+
+    .walkie-container {
+      position: relative;
+      margin-bottom: 48px;
+    }
+
+    .walkie-container img {
+      height: 420px;
+      width: auto;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 100px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .badge .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #ff8c00;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    h1 {
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      text-align: center;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    h1 .highlight {
+      background: linear-gradient(135deg, #ff8c00, #ff5500);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: clamp(14px, 2vw, 16px);
+      color: rgba(255, 255, 255, 0.4);
+      text-align: center;
+      max-width: 460px;
+      line-height: 1.6;
+      margin-bottom: 40px;
+      font-weight: 400;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 32px;
+      background: #fff;
+      color: #0a0a0a;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      letter-spacing: 0.5px;
+    }
+
+    .download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(255, 255, 255, 0.15);
+    }
+
+    .download-btn:active {
+      transform: translateY(0);
+    }
+
+    .download-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .meta {
+      margin-top: 16px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.25);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .meta span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .features {
+      display: flex;
+      gap: 32px;
+      margin-top: 64px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      max-width: 240px;
+    }
+
+    .feature-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 16px;
+    }
+
+    .feature-text h3 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .feature-text p {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.35);
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 40px 24px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.2);
+    }
+
+    .footer a {
+      color: rgba(255, 255, 255, 0.35);
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .shortcut {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .shortcut kbd {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+  <div class="grain"></div>
+
+  <section class="hero">
+    <div class="walkie-container">
+      <img src="/walkie-talkie.svg" alt="WalkiePromptie">
+    </div>
+
+    <div class="badge">
+      <span class="dot"></span>
+      macOS App
+    </div>
+
+    <h1>
+      <span class="highlight">Talk</span> to your code.
+    </h1>
+
+    <p class="subtitle">
+      Push to talk. AI builds. A walkie-talkie that turns your voice into working software — with a dispatch officer narrating the whole thing.
+    </p>
+
+    <a href="/WalkiePromptie.dmg" class="download-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      Download for macOS
+    </a>
+
+    <div class="meta">
+      <span>v1.0</span>
+      <span>·</span>
+      <span>1.6 MB</span>
+      <span>·</span>
+      <span>macOS 14+</span>
+    </div>
+
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">🎙</div>
+        <div class="feature-text">
+          <h3>Push-to-Talk</h3>
+          <p>Hold <span class="shortcut"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>"</kbd></span> to talk. Release to send.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📻</div>
+        <div class="feature-text">
+          <h3>Radio Dispatch</h3>
+          <p>AI-generated police dispatch narration via ElevenLabs while Claude works.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-text">
+          <h3>Claude CLI</h3>
+          <p>Your voice command goes straight to Claude. Watch it build in real time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>Built by <a href="https://github.com/Danger-Testing/WalkiePromptie">Danger Testing</a></p>
+  </footer>
+</body>
+</html>
