@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>WalkiePromptie Updates</title>
+    <link>https://walkiepromptie-site.vercel.app/appcast.xml</link>
+    <description>Updates for WalkiePromptie</description>
+    <language>en</language>
+    <item>
+      <title>Version 1.1</title>
+      <description><![CDATA[
+        <h2>WalkiePromptie 1.1</h2>
+        <ul>
+          <li>OTA updates via Sparkle</li>
+          <li>Push-to-talk voice commands via Claude CLI</li>
+          <li>Police dispatch radio narration via ElevenLabs</li>
+          <li>LCD video overlay during processing</li>
+        </ul>
+      ]]></description>
+      <pubDate>Thu, 17 Apr 2026 12:00:00 -0400</pubDate>
+      <sparkle:version>2</sparkle:version>
+      <sparkle:shortVersionString>1.1</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <enclosure url="https://walkiepromptie-site.vercel.app/WalkiePromptie.dmg"
+                 type="application/octet-stream"
+                 sparkle:edSignature="0jLxJM0UG3QWooHlYRWrWMWo9MibAaBdeuy+M7K42IinZAxdrGTBJX7U1OVFWuwn1dobrLG1OFrBUcm5hUggBA=="
+                 length="117589133"/>
+    </item>
+  </channel>
+</rss>
