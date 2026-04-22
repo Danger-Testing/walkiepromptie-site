@@ -207,6 +207,33 @@
       color: rgba(255, 255, 255, 0.6);
     }
 
+    .superwhisper-link {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .superwhisper-link:hover {
+      opacity: 0.7;
+    }
+
+    .superwhisper-logo {
+      height: 28px;
+      width: auto;
+      opacity: 0.4;
+    }
+
+    .superwhisper-link span {
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.4);
+      letter-spacing: 0.5px;
+    }
+
     .shortcut {
       display: inline-flex;
       align-items: center;
@@ -226,11 +253,27 @@
   </style>
 </head>
 <body>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script>
+    document.addEventListener('click', function(e) {
+      var link = e.target.closest('a');
+      if (!link) return;
+      var href = link.getAttribute('href');
+      if (href === '/WalkiePromptie.dmg') {
+        fetch('/api/track?event=download_dmg');
+      }
+      if (href && href.includes('superwhisper.com')) {
+        fetch('/api/track?event=try_superwhisper_web');
+      }
+    });
+    // Track page view
+    fetch('/api/track?event=page_view');
+  </script>
   <div class="grain"></div>
 
   <section class="hero">
     <div class="walkie-container">
-      <img src="/walkie-talkie.svg" alt="WalkiePromptie">
+      <img src="/walkie-talkie.png" alt="WalkiePromptie">
     </div>
 
     <h1>
@@ -251,9 +294,9 @@
     </a>
 
     <div class="meta">
-      <span>v1.1</span>
+      <span>v1.2</span>
       <span>·</span>
-      <span>112 MB</span>
+      <span>116 MB</span>
       <span>·</span>
       <span>macOS 14+</span>
     </div>
@@ -284,7 +327,11 @@
   </section>
 
   <footer class="footer">
-    <p>Built by <a href="https://dangertesting.com">Danger</a> Testing</p>
+    <a href="https://superwhisper.com/" target="_blank" rel="noopener" class="superwhisper-link">
+      <img src="/superwhisper-logo.png" alt="Superwhisper" class="superwhisper-logo">
+      <span>Try Superwhisper →</span>
+    </a>
+    <p>Built by <a href="https://dangertesting.com">Danger Testing</a></p>
   </footer>
 </body>
 </html>

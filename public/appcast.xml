@@ -6,24 +6,27 @@
     <description>Updates for WalkiePromptie</description>
     <language>en</language>
     <item>
-      <title>Version 1.1</title>
+      <title>Version 1.2</title>
       <description><![CDATA[
-        <h2>WalkiePromptie 1.1</h2>
+        <h2>WalkiePromptie 1.2</h2>
         <ul>
-          <li>OTA updates via Sparkle</li>
-          <li>Push-to-talk voice commands via Claude CLI</li>
-          <li>Police dispatch radio narration via ElevenLabs</li>
-          <li>LCD video overlay during processing</li>
+          <li>Claude Code install prompt for new users</li>
+          <li>Updated walkie-talkie design</li>
+          <li>PTT buffer delay — no more clipped last words</li>
+          <li>LOG/TERM panels now appear above onboarding</li>
+          <li>Halftone LCD overlay effect</li>
+          <li>Try Superwhisper link</li>
+          <li>App launch analytics</li>
         </ul>
       ]]></description>
-      <pubDate>Thu, 17 Apr 2026 12:00:00 -0400</pubDate>
-      <sparkle:version>2</sparkle:version>
-      <sparkle:shortVersionString>1.1</sparkle:shortVersionString>
+      <pubDate>Sat, 18 Apr 2026 19:00:00 -0400</pubDate>
+      <sparkle:version>3</sparkle:version>
+      <sparkle:shortVersionString>1.2</sparkle:shortVersionString>
       <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
       <enclosure url="https://walkiepromptie-site.vercel.app/WalkiePromptie.dmg"
                  type="application/octet-stream"
-                 sparkle:edSignature="0jLxJM0UG3QWooHlYRWrWMWo9MibAaBdeuy+M7K42IinZAxdrGTBJX7U1OVFWuwn1dobrLG1OFrBUcm5hUggBA=="
-                 length="117589133"/>
+                 sparkle:edSignature="3svTozdDbyWVELxIHlfvMp6Xex3Gk/24DD9i2DCFeDBcaI9qosPrbqB7rTDUrqbp2MkDmoDXk0C/QViNIIbcCQ=="
+                 length="121879620"/>
     </item>
   </channel>
 </rss>
